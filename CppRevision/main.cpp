@@ -33,9 +33,28 @@ int main(int argc, const char * argv[])
     std::shared_ptr<std::string> p3 = std::make_shared<std::string>("test string");
     std::shared_ptr<float> p4 = std::make_shared<float>();    // initialized to zero
     
+    auto p5 = std::make_shared<std::vector<std::string>>();    // p5 points to a dynamically allocated, empty vector<string>
+    
+    // copying and assigning shared_ptrs
+    auto p = std::make_shared<int>(42);    // count == 1
+    std::cout << p.unique() << std::endl;  // returns true or false
+    auto q{p};                             // count == 2
+    std::cout << p.use_count() << std::endl;
+
     
     // unique_ptr - "owns" the object to which it points
     // weak_ptr - weak reference to an object managed by a shared_ptr
+    
+    // lock - function that checks whether the object to which the weak_ptr still exists.
+    // if so, lock returns a shared_ptr to the shared object
+    auto valueForWP = std::make_shared<int>(42);
+    std::weak_ptr<int> wp(valueForWP);
+    
+    if (std::shared_ptr<int> np = wp.lock())    // true if np is not null
+    {
+        // inside the if, np shares its object with p
+    }
+    
     
     /* LAMBDA */
     /* THREADS */
